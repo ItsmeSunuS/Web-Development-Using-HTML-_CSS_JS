@@ -1,0 +1,37 @@
+.ctc-container {
+    width: 330px;
+    background-color: #d1c2ef; /* light purple */
+    padding: 30px 20px;
+    border-radius: 25px;
+    text-align: center;
+    font-family: "Poppins", sans-serif;
+}
+
+.ctc-title {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 25px;
+    color: #3a2c5f;
+}
+
+.ctc-card {
+    background: #ffffff;
+    padding: 20px;
+    border-radius: 15px;
+    margin: 15px 0;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+}
+
+.ctc-label {
+    margin: 0;
+    font-size: 15px;
+    color: #6d6d6d;
+    font-weight: 500;
+}
+
+.ctc-value {
+    margin: 12px 0 0;
+    font-size: 28px;
+    font-weight: 700;
+    color: #000;
+}
