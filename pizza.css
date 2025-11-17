@@ -1,0 +1,194 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial;
+}
+
+body {
+    background: #f7f7f7;
+}
+
+/* NAVBAR */
+.navbar {
+    background: white;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.navbar ul {
+    display: flex;
+    list-style: none;
+    gap: 25px;
+}
+
+.navbar ul li a {
+    text-decoration: none;
+    color: blue;
+    font-weight: 600;
+}
+
+.btn-app {
+    padding: 8px 15px;
+    background: red;
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+}
+
+/* ORDER SECTION */
+.order-section {
+    padding: 40px;
+}
+
+.order-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-top: 20px;
+}
+
+.red-card {
+    background: #ff0000;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    border-radius: 6px;
+}
+
+.red-card img {
+    width: 150px;
+}
+
+.red-card button {
+    background: white;
+    color: black;
+    border: none;
+    padding: 8px 20px;
+    margin-top: 10px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+/* EXPLORE SECTION */
+.explore-section {
+    padding: 40px;
+}
+
+.explore-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+}
+
+.exp-card {
+    background: white;
+    padding: 25px;
+    text-align: center;
+    border: 1px solid #ccc;
+}
+
+.exp-card img {
+    width: 60px;
+}
+
+.exp-card a {
+    color: red;
+    font-weight: bold;
+    font-size: 14px;
+    text-decoration: none;
+}
+
+/* APP DOWNLOAD */
+.app-download {
+    background: #efefef;
+    text-align: center;
+    padding: 40px;
+}
+
+.store-buttons img {
+    width: 160px;
+    margin: 10px;
+}
+
+
+/* ============================= */
+/*        RESPONSIVE DESIGN      */
+/* ============================= */
+
+/* Tablets (width ≤ 992px) */
+@media (max-width: 992px) {
+
+    .navbar {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    .order-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .explore-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Mobile (width ≤ 768px) */
+@media (max-width: 768px) {
+
+    .navbar ul {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .btn-app {
+        width: 100%;
+    }
+
+    .order-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .explore-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .red-card img,
+    .exp-card img {
+        width: 120px;
+    }
+
+    .order-section,
+    .explore-section {
+        padding: 20px;
+    }
+}
+
+/* Very Small Phones (width ≤ 480px) */
+@media (max-width: 480px) {
+
+    h2 {
+        font-size: 20px;
+    }
+
+    .navbar h2 {
+        font-size: 22px;
+    }
+
+    .red-card {
+        padding: 15px;
+    }
+
+    .exp-card {
+        padding: 18px;
+    }
+
+    .store-buttons img {
+        width: 130px;
+    }
+}
