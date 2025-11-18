@@ -48,7 +48,6 @@ html {
   100% { transform: translateX(-100%); }
 }
 
-/* Navigation */
 .nav {
   display: flex;
   gap: 25px;
@@ -166,9 +165,7 @@ background-color: #4a4fff;}
 .fade-in { animation: fadeIn 0.7s ease-out forwards; }
 .fade-in-delay { animation: fadeIn 0.7s ease-out 0.3s forwards; }
 
-/* Responsive Styles */
 
-/* Tablet */
 @media (max-width: 1023px) {
   .skills-grid {
     grid-template-columns: repeat(2, 1fr);
@@ -179,7 +176,6 @@ background-color: #4a4fff;}
   }
 }
 
-/* Mobile */
 @media (max-width: 767px) {
   .nav {
     display: none;
