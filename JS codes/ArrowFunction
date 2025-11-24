@@ -1,0 +1,15 @@
+// ``Function Given:```
+
+let multiply=(a,b)=>{a,b};
+console.log(multiply(3,4));
+
+
+//Another way for using arrow funtion is:
+
+let mul = (a, b) => {
+    return a * b;
+};
+let result = mul(3, 4);
+console.log(result);
+
+
