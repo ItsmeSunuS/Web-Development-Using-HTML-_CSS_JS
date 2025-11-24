@@ -1,15 +1,21 @@
 // ``Function Given:```
 
-let multiply=(a,b)=>{a,b};
+let multiply=(a,b)=>{a*b};
 console.log(multiply(3,4));
 
 
 //Another way for using arrow funtion is:
 
-let mul = (a, b) => {
-    return a * b;
+let mul = () => {
+    let a=2;
+    let b=1;git 
+    return a*b;
 };
-let result = mul(3, 4);
+let result = mul();
 console.log(result);
 
+//Arrow function using default parameters
+
+const multiply1 = (a = 1, b = 1) => a * b;
+console.log(multiply())
 
