@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paragraph Manipulation</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        .container {
+            margin-top: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+        }
+        #paragraphs {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Paragraph Manipulation</h1>
+
+    <button id="addParagraphBtn">Add Paragraph</button>
+    <button id="removeParagraphBtn">Remove Last Paragraph</button>
+
+    <div id="paragraphs" class="container"></div>
+
+    <script>
+        // Get the buttons and div container
+        const addButton = document.getElementById('addParagraphBtn');
+        const removeButton = document.getElementById('removeParagraphBtn');
+        const paragraphsContainer = document.getElementById('paragraphs');
+
+        // Function to add a new paragraph
+        function addParagraph() {
+            const newParagraph = document.createElement('p'); // Create new paragraph element
+            newParagraph.textContent = "This is a new paragraph."; // Set the text for the paragraph
+            paragraphsContainer.appendChild(newParagraph); // Append the new paragraph to the container
+        }
+
+        // Function to remove the last paragraph
+        function removeLastParagraph() {
+            const lastParagraph = paragraphsContainer.lastElementChild; // Get the last child element (paragraph)
+            if (lastParagraph) {
+                paragraphsContainer.removeChild(lastParagraph); // Remove the last paragraph if it exists
+            }
+        }
+
+        // Add event listeners to the buttons
+        addButton.addEventListener('click', addParagraph);
+        removeButton.addEventListener('click', removeLastParagraph);
+    </script>
+
+</body>
+</html>
