@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Todo List</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+    }
+    .todo-container {
+      max-width: 500px;
+      margin: 0 auto;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      background-color: #f9f9f9;
+    }
+    .todo-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      margin: 5px 0;
+      background-color: #fff;
+      border-radius: 4px;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+    .todo-item button {
+      padding: 5px 10px;
+      background-color: #f44336;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .todo-item button:hover {
+      background-color: #d32f2f;
+    }
+    .completed {
+      text-decoration: line-through;
+      color: gray;
+    }
+    .no-todos {
+      text-align: center;
+      font-size: 18px;
+      color: #888;
+    }
+    .toggle-btn {
+      padding: 5px 10px;
+      background-color: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .toggle-btn:hover {
+      background-color: #45a049;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="todo-container">
+    <h1>Todo List</h1>
+    <div id="todo-list">
+      <!-- Todos will be rendered here -->
+    </div>
+    <p id="no-todos-message" class="no-todos" style="display: none;">No Todos Available</p>
+  </div>
+
+  <script>
+    // Fetch todos from API
+    function fetchTodos() {
+      fetch('https://jsonplaceholder.typicode.com/todos')
+        .then(response => response.json())
+        .then(data => {
+          const first20Todos = data.slice(0, 20);
+          storeTodos(first20Todos);
+          renderTodos();
+        })
+        .catch(error => console.error('Error fetching todos:', error));
+    }
+
+    // Store todos in Local Storage
+    function storeTodos(todos) {
+      localStorage.setItem('todos', JSON.stringify(todos));
+    }
+
+    // Retrieve todos from Local Storage
+    function getTodos() {
+      const todos = JSON.parse(localStorage.getItem('todos'));
+      return todos ? todos : [];
+    }
+
+    // Render todos on the UI
+    function renderTodos() {
+      const todos = getTodos();
+      const todoList = document.getElementById('todo-list');
+      const noTodosMessage = document.getElementById('no-todos-message');
+      
+      // Clear current list
+      todoList.innerHTML = '';
+
+      if (todos.length === 0) {
+        noTodosMessage.style.display = 'block';
+        return;
+      }
+
+      noTodosMessage.style.display = 'none';
+
+      todos.forEach(todo => {
+        const todoItem = document.createElement('div');
+        todoItem.classList.add('todo-item');
+        
+        const todoTitle = document.createElement('span');
+        todoTitle.classList.add(todo.completed ? 'completed' : '');
+        todoTitle.textContent = todo.title;
+        
+        const toggleButton = document.createElement('button');
+        toggleButton.classList.add('toggle-btn');
+        toggleButton.textContent = todo.completed ? 'Mark Incomplete' : 'Mark Complete';
+        toggleButton.addEventListener('click', () => toggleComplete(todo.id));
+
+        const deleteButton = document.createElement('button');
+        deleteButton.textContent = 'Delete';
+        deleteButton.addEventListener('click', () => deleteTodo(todo.id));
+
+        todoItem.appendChild(todoTitle);
+        todoItem.appendChild(toggleButton);
+        todoItem.appendChild(deleteButton);
+        todoList.appendChild(todoItem);
+      });
+    }
+
+    // Delete a todo from Local Storage
+    function deleteTodo(id) {
+      let todos = getTodos();
+      todos = todos.filter(todo => todo.id !== id);
+      storeTodos(todos);
+      renderTodos();
+    }
+
+    // Toggle the completed status of a todo
+    function toggleComplete(id) {
+      let todos = getTodos();
+      todos = todos.map(todo => {
+        if (todo.id === id) {
+          todo.completed = !todo.completed;
+        }
+        return todo;
+      });
+      storeTodos(todos);
+      renderTodos();
+    }
+
+    // Initialize the app
+    function init() {
+      const storedTodos = getTodos();
+      if (storedTodos.length === 0) {
+        fetchTodos();
+      } else {
+        renderTodos();
+      }
+    }
+
+    // Call the init function on page load
+    window.onload = init;
+  </script>
+
+</body>
+</html>
