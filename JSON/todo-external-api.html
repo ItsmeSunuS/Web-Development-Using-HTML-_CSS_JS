@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Todos App</title>
+  <style>
+    .todo-item {
+      border: 1px solid #ccc;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 5px;
+      background: #f9f9f9;
+    }
+
+    .delete-btn {
+      background: red;
+      color: white;
+      border: none;
+      padding: 6px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .delete-btn:hover {
+      background: darkred;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Todo List</h1>
+  <button id="fetch-btn">Fetch & Store First 20 Todos</button>
+  <div id="todo-list"></div>
+
+  <script>
+    // Fetch todos and store first 20 in Local Storage
+    document.getElementById("fetch-btn").addEventListener("click", () => {
+      fetch("https://jsonplaceholder.typicode.com/todos")
+        .then(response => response.json())
+        .then(todos => {
+          const first20 = todos.slice(0, 20);
+          localStorage.setItem("todos", JSON.stringify(first20));
+          loadTodos();
+        })
+        .catch(err => console.error("Error fetching todos:", err));
+    });
+
+    // Render todos from Local Storage
+    function loadTodos() {
+      const todos = JSON.parse(localStorage.getItem("todos")) || [];
+      const listContainer = document.getElementById("todo-list");
+
+      listContainer.innerHTML = ""; // Clear UI
+
+      todos.forEach((todo, index) => {
+        const div = document.createElement("div");
+        div.className = "todo-item";
+
+        div.innerHTML = `
+          <p><strong>${todo.title}</strong></p>
+          <p>Completed: ${todo.completed ? "✅" : "❌"}</p>
+          <button class="delete-btn" data-index="${index}">Delete</button>
+        `;
+
+        listContainer.appendChild(div);
+      });
+
+      attachDeleteHandlers();
+    }
+
+    // Attach delete handlers
+    function attachDeleteHandlers() {
+      const deleteBtns = document.querySelectorAll(".delete-btn");
+
+      deleteBtns.forEach(btn => {
+        btn.addEventListener("click", (e) => {
+          const index = e.target.dataset.index;
+          deleteTodo(index);
+        });
+      });
+    }
+
+    // Delete a todo and re-render
+    function deleteTodo(index) {
+      let todos = JSON.parse(localStorage.getItem("todos")) || [];
+
+      todos.splice(index, 1); // Remove selected todo
+
+      localStorage.setItem("todos", JSON.stringify(todos)); // Update storage
+
+      loadTodos(); // Re-render UI
+    }
+
+    // Load todos automatically if they already exist in Local Storage
+    loadTodos();
+  </script>
+
+</body>
+</html>
