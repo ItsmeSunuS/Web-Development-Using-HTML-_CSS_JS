@@ -1,82 +1,106 @@
-body {
-    font-family: Arial, sans-serif;
+/* Basic Reset */
+* {
     margin: 0;
     padding: 0;
-    display: flex;
-    min-height: 100vh;
+    box-sizing: border-box;
 }
 
-.container {
+body {
+    font-family: Arial, sans-serif;
     display: flex;
-    flex-direction: row;
-    width: 100%;
+    justify-content: space-between;
+    background-color: #f4f4f4;
 }
 
-#sidebar {
+/* Sidebar Styling */
+.sidebar {
     width: 300px;
-    padding: 20px;
-    background-color: #f8f8f8;
-    border-right: 2px solid #ddd;
-}
-
-#bookList {
-    flex: 1;
+    background-color: #333;
+    color: white;
     padding: 20px;
 }
 
-#bookForm input {
+.sidebar h2 {
+    margin-bottom: 20px;
+}
+
+.sidebar input, .sidebar button {
     width: 100%;
     padding: 10px;
     margin: 10px 0;
+    font-size: 16px;
 }
 
-#bookForm button {
-    width: 100%;
-    padding: 10px;
-    background-color: #4CAF50;
-    color: white;
+.sidebar input {
     border: none;
+    border-radius: 5px;
+    background-color: #f0f0f0;
 }
 
-.book-cards-container {
-    display: flex;
-    flex-wrap: wrap;
+.sidebar button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    cursor: pointer;
+}
+
+.sidebar button:hover {
+    background-color: #45a049;
+}
+
+/* Main Content Styling */
+.main-content {
+    width: calc(100% - 300px);
+    padding: 20px;
+}
+
+h1 {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Book Cards Styling */
+.books-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
 }
 
 .book-card {
-    width: 30%;
-    background-color: #fff;
-    padding: 15px;
+    background-color: white;
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    padding: 20px;
     text-align: center;
 }
 
 .book-card img {
     width: 100%;
-    height: auto;
-    border-radius: 8px;
+    border-radius: 10px;
+    height: 200px;
+    object-fit: cover;
 }
 
-.card-actions button {
-    padding: 6px 12px;
-    margin: 5px;
+.book-card h3 {
+    margin: 15px 0;
+    font-size: 1.2em;
+}
+
+.book-card p {
+    margin: 5px 0;
+    color: #666;
+}
+
+.book-card button {
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 5px;
     cursor: pointer;
+    margin: 5px;
 }
 
-.card-actions button:hover {
-    opacity: 0.8;
-}
-
-@media (max-width: 768px) {
-    .book-card {
-        width: 48%;
-    }
-}
-
-@media (max-width: 480px) {
-    .book-card {
-        width: 100%;
-    }
+.book-card button:hover {
+    background-color: #1976D2;
 }

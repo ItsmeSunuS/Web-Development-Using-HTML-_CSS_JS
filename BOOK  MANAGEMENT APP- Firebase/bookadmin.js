@@ -1,124 +1,128 @@
-// Firebase Configuration (Make sure to replace this with your Firebase project credentials)
+// Base URL for Firebase Realtime Database
+const BASE_URL = "https://book-management-web-app-9e708-default-rtdb.asia-southeast1.firebasedatabase.app/book-management-web-app";
 
-// Initialize Firebase
-const BASE_URL = "https://book-management-web-app-9e708-default-rtdb.asia-southeast1.firebasedatabase.app/book-management-web-app.json";
+// DOM Elements
+const booksContainer = document.getElementById('books-container');
+const addBookForm = document.getElementById('add-book-form');
 
-// Fetch and display books from Firebase Realtime Database
+// Modal and Close button
+const modal = document.getElementById('book-detail-modal');
+const closeModalButton = document.getElementById('close-modal-btn');
+
+// Fetch and display books
 function fetchBooks() {
-    fetch("https://book-management-web-app-9e708-default-rtdb.asia-southeast1.firebasedatabase.app/book-management-web-app.json", {
-        method: "GET"
-    })
-    .then((res) => res.json())
-    .then((data) => {
-        const books = data ? Object.keys(data).map(key => ({
-            id: key,
-            ...data[key]
-        })) : [];
-        
-        renderBooks(books); // Display books on UI
-    })
-    .catch((error) => console.error("Error fetching books: ", error));
+    fetch(`${BASE_URL}.json`) // Fetch books from the root of your Firebase database
+        .then(response => response.json())
+        .then(data => {
+            // Convert Firebase object to array
+            const books = data ? Object.keys(data).map(id => ({ id, ...data[id] })) : [];
+            displayBooks(books);
+        })
+        .catch(error => console.error("Error fetching books:", error));
 }
 
-// Render books to the page
-function renderBooks(books) {
-    const bookCardsContainer = document.getElementById('bookCards');
-    bookCardsContainer.innerHTML = '';  // Clear previous cards
-
+// Display books in card format
+function displayBooks(books) {
+    booksContainer.innerHTML = '';  // Clear the container before rendering new data
     books.forEach(book => {
-        const bookCard = createBookCard(book.id, book);
-        bookCardsContainer.appendChild(bookCard);
+        const card = `
+            <div class="book-card">
+                <img src="${book.coverImageURL}" alt="${book.title}">
+                <h3>${book.title}</h3>
+                <p>Author: ${book.author}</p>
+                <p>Price: $${book.price}</p>
+                <button onclick="updateAuthor('${book.id}')">Update Author</button>
+                <button onclick="deleteBook('${book.id}')">Delete</button>
+                <button onclick="viewDetails('${book.id}')">View Details</button>
+            </div>
+        `;
+        booksContainer.innerHTML += card;
     });
-}
-
-// Create individual book card
-function createBookCard(bookId, book) {
-    const card = document.createElement('div');
-    card.classList.add('book-card');
-    
-    card.innerHTML = `
-        <img src="${book.coverImageURL}" alt="${book.title}" class="book-cover" />
-        <h3>${book.title}</h3>
-        <p>by ${book.author}</p>
-        <p>Price: $${book.price}</p>
-        <div class="card-actions">
-            <button class="btnUpdate" onclick="updateData('${bookId}', prompt('Enter new author name:'))">Update Author</button>
-            <button class="btnDelete" onclick="deleteData('${bookId}')">Delete</button>
-            <button class="btnDetails" onclick="viewDetails('${bookId}')">View Details</button>
-        </div>
-    `;
-    
-    return card;
 }
 
 // Add a new book to Firebase
-function createData(title, author, price, coverImageURL) {
-    fetch("https://book-management-web-app-9e708-default-rtdb.asia-southeast1.firebasedatabase.app/book-management-web-app.json", {
-        method: "POST",
-        body: JSON.stringify({
-            title: title,
-            author: author,
-            price: price,
-            coverImageURL: coverImageURL
-        })
-    })
-    .then((res) => res.json())
-    .then((data) => {
-        console.log("Book added successfully", data);
-        fetchBooks(); // Re-render the books after adding a new one
-    });
-}
-
-// Update book data (e.g., update author)
-function updateData(bookId, newAuthor) {
-    fetch(`https://book-management-web-app-9e708-default-rtdb.asia-southeast1.firebasedatabase.app/books/${bookId}.json.`, {
-        method: "PUT",
-        body: JSON.stringify({
-            author: newAuthor
-        })
-    })
-    .then((res) => res.json())
-    .then((data) => {
-        console.log("Updated the book", data);
-        fetchBooks(); // Re-render the books after update
-    });
-}
-
-// Delete a book from Firebase
-function deleteData(bookId) {
-    fetch(`https://YOUR_PROJECT_ID.firebaseio.com/bhttps://book-management-web-app-9e708-default-rtdb.asia-southeast1.firebasedatabase.app/books/${bookId}.json.ooks/${bookId}.json`, {
-        method: "DELETE"
-    })
-    .then((res) => res.json())
-    .then((data) => {
-        console.log("Deleted the book", data);
-        fetchBooks(); // Re-render the books after deletion
-    });
-}
-
-// View Book Details (You can modify this to show more detailed info in a modal)
-function viewDetails(bookId) {
-    fetch(`https://book-management-web-app-9e708-default-rtdb.asia-southeast1.firebasedatabase.app/books/${bookId}.json.`, {
-        method: "GET"
-    })
-    .then((res) => res.json())
-    .then((data) => {
-        alert(`Title: ${data.title}\nAuthor: ${data.author}\nPrice: $${data.price}`);
-    })
-    .catch((error) => console.error("Error fetching book details: ", error));
-}
-
-// Handle the form submission to add a new book
-document.getElementById('bookForm').addEventListener('submit', function (e) {
-    e.preventDefault();
-
+addBookForm.addEventListener('submit', function(event) {
+    event.preventDefault();
+    
     const title = document.getElementById('title').value;
     const author = document.getElementById('author').value;
-    const price = document.getElementById('price').value;
+    const price = parseFloat(document.getElementById('price').value);
     const coverImageURL = document.getElementById('coverImageURL').value;
+    
+    const newBook = { title, author, price, coverImageURL };
 
-    createData(title, author, price, coverImageURL); // Add the book
+    // POST request to add the new book to Firebase
+    fetch(`${BASE_URL}.json`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(newBook)
+    })
+    .then(() => fetchBooks()) // Re-fetch after adding
+    .catch(error => console.error("Error adding book:", error));
+
+    // Clear the form
+    addBookForm.reset();
 });
 
-// Load the books when the page is loaded
+// Update book's author
+function updateAuthor(bookId) {
+    const newAuthor = prompt("Enter the new author name:");
+    if (newAuthor) {
+        const updatedBook = { author: newAuthor };
+
+        // PATCH request to update the author of the book
+        fetch(`${BASE_URL}/${bookId}.json`, {
+            method: "PATCH",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(updatedBook)
+        })
+        .then(() => fetchBooks()) // Re-fetch after update
+        .catch(error => console.error("Error updating author:", error));
+    }
+}
+
+// Delete book
+function deleteBook(bookId) {
+    // DELETE request to remove the book from Firebase
+    fetch(`${BASE_URL}/${bookId}.json`, {
+        method: "DELETE"
+    })
+    .then(() => fetchBooks()) // Re-fetch after deletion
+    .catch(error => console.error("Error deleting book:", error));
+}
+
+// View book details in modal
+function viewDetails(bookId) {
+    fetch(`${BASE_URL}/${bookId}.json`)  // Fetch the specific book by its ID
+        .then(response => response.json())
+        .then(book => {
+            // Update modal content with book details
+            document.getElementById('modal-title').textContent = book.title;
+            document.getElementById('modal-author').textContent = book.author;
+            document.getElementById('modal-price').textContent = book.price;
+            document.getElementById('modal-image').src = book.coverImageURL;
+
+            // Show the modal
+            modal.style.display = "block";
+        })
+        .catch(error => console.error("Error fetching book details:", error));
+}
+
+// Close modal when user clicks the "X"
+closeModalButton.addEventListener('click', () => {
+    modal.style.display = "none";
+});
+
+// Close modal when user clicks anywhere outside the modal
+window.onclick = function(event) {
+    if (event.target == modal) {
+        modal.style.display = "none";
+    }
+}
+
+// Initial fetch when page loads
 fetchBooks();
