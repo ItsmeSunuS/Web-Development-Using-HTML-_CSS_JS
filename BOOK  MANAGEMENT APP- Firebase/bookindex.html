@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Management Web App</title>
+    <link rel="stylesheet" href="book.css">
+     <link rel="script" href="bookadmin.js">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar for adding a new book -->
+        <div id="sidebar">
+            <h3>Add Book</h3>
+            <form id="bookForm">
+                <input type="text" id="title" placeholder="Title" required />
+                <input type="text" id="author" placeholder="Author" required />
+                <input type="number" id="price" placeholder="Price" required />
+                <input type="text" id="coverImageURL" placeholder="Cover Image URL" required />
+                <button type="submit" onclick="addbook()">Add Book</button>
+            </form>
+        </div>
+        
+        <!-- Book Cards Section -->
+        <div id="bookList">
+            <h2>Book Collection</h2>
+            <div class="book-cards-container" id="bookCards">
+                <!-- Book cards will be displayed here -->
+            </div>
+        </div>
+    </div>
+
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
