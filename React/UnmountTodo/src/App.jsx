@@ -2,9 +2,14 @@ import { useState } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+import TodosList from "./TodosList";
+
+
 
 
 function App() {
+
+    const [showTodos, setShowTodos] = useState(true);
 
   return (
     <>
@@ -26,6 +31,22 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+
+
+    <div style={{ padding: "20px" }}>
+      <button onClick={() => setShowTodos(false)}>
+        Unmount Todos
+      </button>
+
+      <br /><br />
+
+      {showTodos && <TodosList />}
+    </div>
+        <div>
+          <TodosList/>
+        </div>
+
+
     </>
   )
 }
