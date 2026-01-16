@@ -1,27 +1,30 @@
-// Import Express
+console.log("INDEX.JS FILE IS RUNNING");
+
 const express = require('express');
-
-// Initialize Express app
 const app = express();
+const PORT = 4000;
 
-// Define port
-const PORT = 3000;
+// Root route
+app.get('/', (req, res) => {
+  res.json({ message: 'Welcome to Express server' });
+});
 
-// Routes
+// Home route
 app.get('/home', (req, res) => {
   res.json({ message: 'This is home page' });
 });
 
+// Contact Us route
 app.get('/contactus', (req, res) => {
   res.json({ message: 'Contact us at contact@contact.com' });
 });
 
-// Bonus route
+// About route (bonus)
 app.get('/about', (req, res) => {
   res.json({ message: 'Welcome to the About page!' });
 });
 
-// Start server
+// START SERVER 
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
