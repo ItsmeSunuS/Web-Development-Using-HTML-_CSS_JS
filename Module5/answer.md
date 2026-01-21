@@ -1,4 +1,6 @@
-Why is db.json not suitable as a database for real projects?
+                Database Fundamentals – Conceptual Understanding (Theory)
+
+1.Why is db.json not suitable as a database for real projects?
 
 db.json (or any file-based JSON storage) is commonly used for learning, demos, or mock APIs, but it is not suitable for real-world production applications., It is useful for learning and prototyping, but real applications require a proper database system to ensure performance, safety, and reliability.
 
