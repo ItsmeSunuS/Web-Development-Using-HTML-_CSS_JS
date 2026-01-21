@@ -135,5 +135,5 @@ Social media platforms
 Real-time analytics
 IoT applications
 Content management systems
-Large-scale distributed systems
+Large-scale distributed systems.
 
