@@ -1,0 +1,108 @@
+CREATE TABLE students (
+    id SERIAL PRIMARY KEY,
+    name TEXT,
+    email TEXT,
+    age INTEGER,
+    course TEXT,
+    created at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+INSERT INTO students (name, email, age, course)
+VALUES
+('Aarav Sharma', 'aarav.sharma@example.com', 20, 'Computer Science'),
+('Priya Patel', 'priya.patel@example.com', 22, 'Information Technology'),
+('Rahul Verma', 'rahul.verma@example.com', 21, 'Mechanical Engineering'),
+('Sneha Iyer', 'sneha.iyer@example.com', 23, 'Electronics and Communication'),
+('Karan Singh', 'karan.singh@example.com', 19, 'Civil Engineering'),
+('Neha Gupta', 'neha.gupta@example.com', 24, 'Business Administration'),
+('Rohit Mehta', 'rohit.mehta@example.com', 22, 'Data Science'),
+('Ananya Roy', 'ananya.roy@example.com', 21, 'Artificial Intelligence');
+
+SELECT * 
+FROM students;
+
+
+| id | name         | email                    | age | course                        |
+| -- | ------------ | ------------------------ | --- | ----------------------------- |
+| 4  | Sneha Iyer   | sneha.iyer@example.com   | 23  | Electronics and Communication |
+| 6  | Neha Gupta   | neha.gupta@example.com   | 24  | Business Administration       |
+| 7  | Rohit Mehta  | rohit.mehta@example.com  | 22  | Data Science                  |
+| 8  | Ananya Roy   | ananya.roy@example.com   | 21  | Artificial Intelligence       |
+| 1  | Aarav Sharma | aarav.sharma@example.com | 21  | Computer Science              |
+| 2  | Priya Patel  | priya.patel@example.com  | 22  | Data Science                  |
+ 
+SELECT * 
+FROM students
+WHERE age > 20;
+
+| id | name         | email                    | age | course                        |
+| -- | ------------ | ------------------------ | --- | ----------------------------- |
+| 4  | Sneha Iyer   | sneha.iyer@example.com   | 23  | Electronics and Communication |
+| 6  | Neha Gupta   | neha.gupta@example.com   | 24  | Business Administration       |
+| 7  | Rohit Mehta  | rohit.mehta@example.com  | 22  | Data Science                  |
+| 8  | Ananya Roy   | ananya.roy@example.com   | 21  | Artificial Intelligence       |
+| 1  | Aarav Sharma | aarav.sharma@example.com | 21  | Computer Science              |
+| 2  | Priya Patel  | priya.patel@example.com  | 22  | Data Science                  |
+SELECT name, email
+FROM students;
+
+
+| name         | email                    |
+| ------------ | ------------------------ |
+| Sneha Iyer   | sneha.iyer@example.com   |
+| Neha Gupta   | neha.gupta@example.com   |
+| Rohit Mehta  | rohit.mehta@example.com  |
+| Ananya Roy   | ananya.roy@example.com   |
+| Aarav Sharma | aarav.sharma@example.com |
+| Priya Patel  | priya.patel@example.com  | 
+
+
+
+SELECT * 
+FROM students
+WHERE course = 'Computer Science';
+
+
+| id | name         | email                    | age | course           |
+| -- | ------------ | ------------------------ | --- | ---------------- |
+| 1  | Aarav Sharma | aarav.sharma@example.com | 21  | Computer Science |
+
+
+UPDATE students
+SET age = 21
+WHERE id = 1;
+
+
+UPDATE students
+SET course = ''Electronics and Communication'
+WHERE course =  'Data Science;
+
+
+
+
+
+SELECT * FROM students WHERE course = 'Electronics and Communication';
+
+| id | name       | email                  | age | course                        |
+| -- | ---------- | ---------------------- | --- | ----------------------------- |
+| 4  | Sneha Iyer | sneha.iyer@example.com | 23  | Electronics and Communication |
+
+DELETE FROM students
+WHERE id = 3;
+
+Success. No rows returned
+
+
+
+DELETE FROM students
+WHERE age < 20;
+
+Success. No rows returned
+
+
+
+SELECT * FROM students WHERE age < 20;
+
+Success. No rows returned
+
+
+
