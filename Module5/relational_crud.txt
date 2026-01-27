@@ -1,0 +1,174 @@
+
+ Users table
+CREATE TABLE users (
+    id SERIAL PRIMARY KEY,
+    name TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW()
+);
+
+Success. No rows returned
+
+
+
+-- Orders table
+CREATE TABLE orders (
+    id SERIAL PRIMARY KEY,
+    user_id INTEGER NOT NULL,
+    amount INTEGER NOT NULL,
+    status TEXT NOT NULL,
+    created_at TIMESTAMP DEFAULT NOW(),
+    CONSTRAINT fk_user
+        FOREIGN KEY (user_id)
+        REFERENCES users(id)
+        ON DELETE RESTRICT
+);
+
+Success. No rows returned
+
+
+INSERT INTO users (name, email)
+VALUES
+('Alice', 'alice@email.com'),
+('Bob', 'bob@email.com'),
+('Charlie', 'charlie@email.com'),
+('Diana', 'diana@email.com'),
+('Eve', 'eve@email.com');
+
+
+Success. No rows returned
+
+
+INSERT INTO orders (user_id, amount, status)
+VALUES
+(1, 100, 'pending'),
+(1, 250, 'completed'),
+(1, 75, 'completed'),
+(2, 300, 'pending'),
+(2, 150, 'completed'),
+(3, 400, 'cancelled'),
+(4, 500, 'completed'),
+(4, 200, 'pending'),
+(5, 50, 'completed');
+
+
+Success. No rows returned
+
+
+SELECT * FROM users;
+
+
+| id | name    | email             | created_at                |
+| -- | ------- | ----------------- | ------------------------- |
+| 1  | Alice   | alice@email.com   | 2026-01-27 12:07:51.29855 |
+| 2  | Bob     | bob@email.com     | 2026-01-27 12:07:51.29855 |
+| 3  | Charlie | charlie@email.com | 2026-01-27 12:07:51.29855 |
+| 4  | Diana   | diana@email.com   | 2026-01-27 12:07:51.29855 |
+| 5  | Eve     | eve@email.com     | 2026-01-27 12:07:51.29855 |
+
+
+SELECT * FROM orders;
+
+| id | user_id | amount | status    | created_at                 |
+| -- | ------- | ------ | --------- | -------------------------- |
+| 1  | 1       | 100    | pending   | 2026-01-27 12:09:17.159324 |
+| 2  | 1       | 250    | completed | 2026-01-27 12:09:17.159324 |
+| 3  | 1       | 75     | completed | 2026-01-27 12:09:17.159324 |
+| 4  | 2       | 300    | pending   | 2026-01-27 12:09:17.159324 |
+| 5  | 2       | 150    | completed | 2026-01-27 12:09:17.159324 |
+| 6  | 3       | 400    | cancelled | 2026-01-27 12:09:17.159324 |
+| 7  | 4       | 500    | completed | 2026-01-27 12:09:17.159324 |
+| 8  | 4       | 200    | pending   | 2026-01-27 12:09:17.159324 |
+| 9  | 5       | 50     | completed | 2026-01-27 12:09:17.159324 |
+
+
+SELECT *
+FROM orders
+WHERE user_id = 1;
+
+
+| id | user_id | amount | status    | created_at                 |
+| -- | ------- | ------ | --------- | -------------------------- |
+| 1  | 1       | 100    | pending   | 2026-01-27 12:09:17.159324 |
+| 2  | 1       | 250    | completed | 2026-01-27 12:09:17.159324 |
+| 3  | 1       | 75     | completed | 2026-01-27 12:09:17.159324 |
+
+
+
+SELECT u.id, u.name, COUNT(o.id) AS order_count
+FROM users u
+JOIN orders o ON u.id = o.user_id
+GROUP BY u.id, u.name
+HAVING COUNT(o.id) > 1;
+
+
+
+| id | name  | order_count |
+| -- | ----- | ----------- |
+| 4  | Diana | 2           |
+| 2  | Bob   | 2           |
+| 1  | Alice | 3           |
+
+SELECT u.id, u.name, SUM(o.amount) AS total_amount
+FROM users u
+JOIN orders o ON u.id = o.user_id
+GROUP BY u.id, u.name;
+
+
+| id | name    | total_amount |
+| -- | ------- | ------------ |
+| 4  | Diana   | 700          |
+| 2  | Bob     | 450          |
+| 3  | Charlie | 400          |
+| 5  | Eve     | 50           |
+| 1  | Alice   | 425          |
+
+
+
+UPDATE users
+SET email = 'alice_new@email.com'
+WHERE id = 1;
+
+
+Success. No rows returned
+
+
+UPDATE orders
+SET status = 'completed'
+WHERE user_id = 2;
+
+Success. No rows returned
+
+
+UPDATE orders
+SET amount = 120
+WHERE id = 3;
+
+Success. No rows returned
+
+
+
+* Delete one order using order id
+
+DELETE FROM orders
+WHERE id = 9;
+
+Success. No rows returned
+
+* Delete all orders of a specific user (user_id = 3)
+
+DELETE FROM orders
+WHERE user_id = 3;
+
+Success. No rows returned
+
+* Attempt to delete a user with existing orders
+
+DELETE FROM users
+WHERE id = 1;
+
+
+Success. No rows returned
+
+
+
