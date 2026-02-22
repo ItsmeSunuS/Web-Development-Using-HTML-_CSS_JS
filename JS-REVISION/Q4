@@ -1,0 +1,33 @@
+//Q4)
+
+async function(runSequential(tasks,delay)
+
+{
+
+const results=[];
+
+for(let task of tasks)
+
+{
+
+try{
+
+const result=await task();
+
+results.push(result);
+
+await new Promise(res=>setTimeout(res,delay));
+
+catch(error)
+
+{
+
+throw error;
+
+}
+
+}
+
+return results;
+
+}

@@ -1,0 +1,66 @@
+//Q1
+
+function createBankAcciunt(intialBalance=0){
+
+let balance=intialBalance;
+
+let transactons=[];
+
+return{
+
+deposit(amount)
+
+{
+
+if(amount<=0)
+
+{
+
+return "Deposit amount must be positive";
+
+}
+
+balance+=amount{
+
+transactions.push({type:"deposit",amount});
+
+return balance;
+
+withdraw(amount)
+
+{
+
+if(amount<=0){
+
+return"Withdrawal amount should be greater than zero";
+
+}
+
+if(amount>balance){
+
+return"Insuffientbalance";
+
+}
+
+balance==amount
+
+transactions.push({type:"withdraw",amount});
+
+};
+
+getBalance(){
+
+return balance;
+
+},
+
+getTransactionHistory(){
+
+return[transactions];
+
+}
+
+};
+
+}
+

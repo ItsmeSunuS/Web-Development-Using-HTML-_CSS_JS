@@ -1,0 +1,31 @@
+ //Q2)
+
+ function createRateLiniter(limit,interval)
+
+{
+
+let count=0;
+
+setInterval(()=>{
+
+count=0;
+
+},interval);
+
+return function ()
+
+{
+
+
+
+if(count>=limit){
+
+return "Rate Limit exceeded";
+
+}
+
+count++;
+
+return "call allowed";};
+
+}
